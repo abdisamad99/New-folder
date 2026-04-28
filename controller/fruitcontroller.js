@@ -1,18 +1,97 @@
-const Fruit = require("../models/fruitmodel");
+const Fruit = require('../models/fruitModel');
 
-const getFruits = async (req, res) => {
-    const fruits = await Fruit.find();
-    res.json(fruits);
+// CREATE
+exports.createFruit = async (req, res) => {
+    try {
+        const fruit = await Fruit.create(req.body);
+        res.status(201).json({ success: true, data: fruit });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
 };
 
-const createFruit = async (req, res) => {
-    const fruit = await Fruit.create({
-        name: req.body.name,
-        rating: req.body.rating,
-        review: req.body.review
-    });
-
-    res.json(fruit);
+// GET ALL
+exports.getFruits = async (req, res) => {
+    try {
+        const fruits = await Fruit.find();
+        res.json({ success: true, data: fruits });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
 };
 
-module.exports = { getFruits, createFruit };
+// GET ONE
+exports.getOneFruit = async (req, res) => {
+    try {
+        const fruit = await Fruit.findById(req.params.id);
+
+        if (!fruit) {
+            return res.status(404).json({
+                success: false,
+                message: "Fruit not found"
+            });
+        }
+
+        res.json({ success: true, data: fruit });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+// UPDATE
+exports.updateFruit = async (req, res) => {
+    try {
+        const fruit = await Fruit.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+
+        if (!fruit) {
+            return res.status(404).json({
+                success: false,
+                message: "Fruit not found"
+            });
+        }
+
+        res.json({ success: true, data: fruit });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+// DELETE
+exports.deleteFruit = async (req, res) => {
+    try {
+        const fruit = await Fruit.findByIdAndDelete(req.params.id);
+
+        if (!fruit) {
+            return res.status(404).json({
+                success: false,
+                message: "Fruit not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Deleted successfully"
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};

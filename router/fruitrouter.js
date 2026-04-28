@@ -1,12 +1,19 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
 const {
+    createFruit,
     getFruits,
-    createFruit
-} = require("../controller/fruitcontroller");
+    getOneFruit,
+    updateFruit,
+    deleteFruit
+} = require('../controller/fruitController');
 
-router.get("/", getFruits);
-router.post("/", createFruit);
+// routes
+router.post('/fruits', createFruit);
+router.get('/fruits', getFruits);
+router.get('/fruits/:id', getOneFruit);
+router.put('/fruits/:id', updateFruit);
+router.delete('/fruits/:id', deleteFruit);
 
 module.exports = router;

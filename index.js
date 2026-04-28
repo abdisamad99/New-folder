@@ -1,17 +1,26 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+
 const { connectToDatabase } = require('./database/connect');
+const fruitRoutes = require('./router/fruitRouter');
+
 const app = express();
 
-app.use(bodyParser.json(bodyParser.urlencoded({ extended: true })));
+// middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+// routes
+app.use('/api', fruitRoutes);
+
+// home route
 app.get('/', (req, res) => {
-    res.send('NEW FOLDER');
+    res.send('FRUITS API WORKING ✅');
 });
 
-
-app.listen(3000, () => {
-    connectToDatabase();
-    console.log('Server is running on port 5000');
-})
+// start server
+app.listen(3000, async () => {
+    await connectToDatabase();
+    console.log('Server running on port 3000');
+});

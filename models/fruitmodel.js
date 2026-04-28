@@ -1,19 +1,27 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const fruitSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    maxlength: 8
-  },
-  rating: {
-    type: Number,
-    required: true,
-    max: 10
-  },
-  review: String
+    name: {
+        type: String,
+        required: [true, "Fruit name must be provided"]
+    },
+    rating: {
+        type: Number,
+        required: [true, "Rating must be provided"]
+    },
+    review: String,
+    featured: {
+        type: Boolean,
+        default: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    category: {
+        type: String,
+        enum: ["tropical", "citrus", "berry", "dry"]
+    }
 });
 
-const Fruit = mongoose.model("Fruit", fruitSchema);
-
-module.exports = Fruit;
+module.exports = mongoose.model("Fruit", fruitSchema)
