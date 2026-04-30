@@ -1,13 +1,16 @@
 const mongoose = require('mongoose');
-const dns = require('dns');
-dns.setServers([ '1.1.1.1'])
-const connectToDatabase = async () => {
+const dns = require("node:dns/promises");
+
+
+dns.setServers(["1.1.1.1"]);
+
+function connectToDatabase() {
     try {
-        await mongoose.connect(process.env.DB_URL);
-        console.log("MongoDB Connected ✅");
+        mongoose.connect(process.env.DB_URL);
+        console.log("Database is connected!");
     } catch (error) {
-        console.error("DB Connection Error ❌", error.message);
+        console.error('Error connecting to MongoDB:', error);
     }
-};
+}
 
 module.exports = { connectToDatabase };

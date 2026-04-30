@@ -3,15 +3,15 @@ const router = express.Router();
 
 const {
     createFruit,
-    getFruits,
+    getAllFruits,
     getOneFruit,
     updateFruit,
     deleteFruit
 } = require('../controller/fruitController');
 
-// routes
+// ROUTES
 router.post('/fruits', createFruit);
-router.get('/fruits', getFruits);
+router.get('/fruits', getAllFruits);
 router.get('/fruits/:id', getOneFruit);
 router.put('/fruits/:id', updateFruit);
 router.delete('/fruits/:id', deleteFruit);
